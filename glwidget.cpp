@@ -5,10 +5,10 @@
  
 GLWidget::GLWidget(QWidget *parent)
     : QOpenGLWidget(parent),
-    glBuffer(QOpenGLBuffer::VertexBuffer),
     textureY(QOpenGLTexture::Target2D),
     textureU(QOpenGLTexture::Target2D),
     textureV(QOpenGLTexture::Target2D),
+    glBuffer(QOpenGLBuffer::VertexBuffer),
     yuvDataPtr(NULL),
     fileIndex(0)
 {
@@ -197,7 +197,6 @@ void GLWidget::paintGL()
     
     // activate texture 0
     glActiveTexture(GL_TEXTURE0);
-    glGenTextures(1, &id_y);
     glBindTexture(GL_TEXTURE_2D, id_y);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_LUMINANCE, frameW, frameH, 0, GL_LUMINANCE, GL_UNSIGNED_BYTE, yuvDataPtr);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -208,7 +207,6 @@ void GLWidget::paintGL()
 
     // activate texture 1
     glActiveTexture(GL_TEXTURE1);
-    glGenTextures(1, &id_u);
     glBindTexture(GL_TEXTURE_2D, id_u);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_LUMINANCE, frameW/2, frameH/2, 0, GL_LUMINANCE, GL_UNSIGNED_BYTE, (char*)yuvDataPtr+frameW*frameH);
     glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
@@ -219,7 +217,6 @@ void GLWidget::paintGL()
 
     // activate texture 2
     glActiveTexture(GL_TEXTURE2);
-    glGenTextures(1, &id_v);
     glBindTexture(GL_TEXTURE_2D, id_v);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_LUMINANCE, frameW/2, frameH/2, 0, GL_LUMINANCE, GL_UNSIGNED_BYTE, (char*)yuvDataPtr+frameW*frameH*5/4);
     glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
